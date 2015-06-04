@@ -56,15 +56,11 @@
                       (cons item (cons (car pr) acc))))
               '() (reverse ls)))
 
-(defgroup flycheck-pmd nil
-  "Customization group for flycheck-pmd"
-  :group 'flycheck)
-
 (defcustom
   flycheck-pmd-rulesets
   '("java-basic" "java-design" "java-imports" "java-braces")
   "List of rulesets for flycheck-pmd."
-  :group 'flycheck-pmd
+  :group 'flycheck-options
   :type '(repeat string))
 
 (defconst
