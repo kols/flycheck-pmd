@@ -5,7 +5,7 @@
 ;; Author: Remy Goldschmidt <taktoa@gmail.com>
 ;; URL: https://github.com/taktoa/flycheck-pmd
 ;; Keywords: convenience, tools, languages
-;; Version: 0.1-git
+;; Version: 0.2-git
 ;; Package-Requires: ((emacs "24.1") (flycheck "0.22") (let-alist "1.0.3"))
 
 ;; This file is not part of GNU Emacs.
@@ -68,10 +68,10 @@
           " -R " (apply 'concat (intersperse "," flycheck-pmd-rulesets)))
   "Arguments for PMD error message.")
 
-(flycheck-define-checker java-pmd
+(flycheck-define-command-checker 'java-pmd
   "A syntax checker for Java using PMD."
-  :command ("pmd" "pmd" flycheck-pmd-args " -d " (file-name-directory source))
-  :error-patterns ((error line-start (file-name) ":" line ": " (message) line-end))
+  :command `("pmd" "pmd" ,flycheck-pmd-args " -d " source)
+  :error-patterns '((error line-start (file-name) ":" line ": " (message) line-end))
   :modes '(java-mode))
 
 ;;;###autoload
