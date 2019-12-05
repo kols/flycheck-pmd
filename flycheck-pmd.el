@@ -56,23 +56,23 @@
                       (cons item (cons (car pr) acc))))
               '() (reverse ls)))
 
-(defcustom
-  flycheck-pmd-rulesets
-  '("java-basic" "java-design" "java-imports" "java-braces")
+(defcustom flycheck-pmd-rulesets '("rulesets/java/quickstart.xml")
   "List of rulesets for flycheck-pmd."
   :group 'flycheck-options
   :type '(repeat string))
 
-(defconst
-  flycheck-pmd-args
-  (concat " -l java "
-          " -f emacs "
-          " -R " (apply 'concat (intersperse "," flycheck-pmd-rulesets)))
-  "Arguments for PMD error message.")
+(defcustom flycheck-pmd-cache-path (expand-file-name "~/.cache/pmd/cache")
+  :group 'flycheck-options
+  :type 'string)
 
 (flycheck-define-command-checker 'java-pmd
   "A syntax checker for Java using PMD."
-  :command `("pmd" "pmd" ,flycheck-pmd-args " -d " source)
+  :command '("pmd" "pmd"
+             "-l" "java"
+             "-f" "emacs"
+             "-R" (mapconcat #'identity flycheck-pmd-rulesets ",")
+             "-cache" flycheck-pmd-cache-path
+             "-d" source)
   :error-patterns '((error line-start (file-name) ":" line ": " (message) line-end))
   :modes '(java-mode))
 
